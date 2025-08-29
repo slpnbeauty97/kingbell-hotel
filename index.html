@@ -5,11 +5,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Kingbell - Online Booking System</title>
     <link rel="stylesheet" href="stylesheet.css">
-    <!-- Font Awesome for icons -->
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <!-- Basic inline styles for cards -->
+    <style>
+
+     .card {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+}
+
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 15px;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.card-text {
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+
+.price {
+  font-size: 16px;
+  font-weight: bold;
+  color: #0d6efd; /* 🔵 blue price highlight */
+}
+
+.location {
+  font-size: 14px;
+  color: #888;
+}
+
+.btn-primary {
+  background-color: #0d6efd; /* 🔵 booking.com blue style */
+  border: none;
+  width: 100%;
+}
+
+.btn-primary:hover {
+  background-color: #084298;
+}
+
+.btn-danger {
+  background-color: #dc3545; /* 🔴 secondary action if needed */
+  border: none;
+}
 
 
+.modal img {
+  width: 100%;              /* take full width of modal container */
+  max-width: 400px;         /* card-like max size */
+  height: 250px;            /* fixed card height */
+  object-fit: cover;        /* crops nicely without distortion */
+  border-radius: 12px;      /* smooth card corners */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3); /* subtle depth */
+  margin: 0 auto;           /* center horizontally */
+  display: block;
+}
+
+
+.modal-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+
+    </style>
 </head>
 <body>
     <header>
@@ -32,6 +118,7 @@
             </div>
         </div>
     </header>
+
     <nav class="sidebar">
         <ul>
             <li><i class="fas fa-home"></i> Home</li>
@@ -40,26 +127,26 @@
             <li><i class="fas fa-question-circle"></i> Help</li>
         </ul>
     </nav>
+
     <main>
         <div class="main-header">
             <div class="welcome">Welcome back, Nelius</div>
             <div class="location">
                 <select name="location" id="location">
                     <option value="">Select Location</option>
-                    <!-- Populate location options dynamically if needed -->
                 </select>
             </div>
             <div class="calendar">
                 <input type="date" id="calendarDate">
             </div>
         </div>
+
         <div class="recent-search">
             <h2>Recent Searches</h2>
-            <div class="search-images">
-                <!-- Images here -->
-            </div>
+            <div class="search-images"></div>
             <button id="seeMoreButton">See More</button>
         </div>
+
         <div class="categories">
             <h2>Categories</h2>
             <ul>
@@ -71,84 +158,130 @@
                 <li>Guest house</li>
             </ul>
         </div>
+
         <div class="recommendations">
             <h2>Recommendations for You</h2>
-            <!-- Recommendation cards dynamically populated here -->
-          <div class="recommendation-cards">
-                    <div class="card">
-                        <img src="thekingbellonlinebookings/assets/Hotel Bedroom with Furniture.jpg" alt="Image 1">
-                        <div class="card-info">
-                            <h3>Name of the Hotel</h3>
-                            <p>Location</p>
-                            <p>Price/24 hrs</p>
-                            <div class="rating">
-                                <!-- Insert rating icon or stars here -->
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Repeat for other recommendation cards -->
-                            <div class="card">
-                                <img src="C:\Users\ckmacharia\Documents\thekingbellonlinebookings\assets\Hotel Bedroom with Furniture.jpg" alt="Image 1">
-                                <div class="card-info">
-                                    <h3>Name of the Hotel</h3>
-                                    <p>Location</p>
-                                    <p>Price/24 hrs</p>
-                                    <div class="rating">
-                                        <!-- Insert rating icon or stars here -->
-                                    </div>
-                                </div>
-                            </div>
-                                    <div class="card">
-                                        <img src="C:\Users\ckmacharia\Documents\thekingbellonlinebookings\assets\Hotel Bedroom with Furniture.jpg" alt="Image 1">
-                                        <div class="card-info">
-                                            <h3>Name of the Hotel</h3>
-                                            <p>Location</p>
-                                            <p>Price/24 hrs</p>
-                                            <div class="rating">
-                                                <!-- Insert rating icon or stars here -->
-                                            </div>
-                                        </div>
-                                    </div>
-                                        <div class="card">
-                                            <img src="thekingbellonlinebookings/assets/Hotel Bedroom with Furniture.jpg" alt="Image 1">
-                                            <div class="card-info">
-                                                <h3>Name of the Hotel</h3>
-                                                <p>Location</p>
-                                                <p>Price/24 hrs</p>
-                                                <div class="rating">
-                                                    <!-- Insert rating icon or stars here -->
-                                                </div>
-                                            </div>
-                                        </div>
-                                            <div class="card">
-                                                <img src="thekingbellonlinebookings/assets/Hotel Bedroom with Furniture.jpg" alt="Image 1">
-                                                <div class="card-info">
-                                                    <h3>Name of the Hotel</h3>
-                                                    <p>Location</p>
-                                                    <p>Price/24 hrs</p>
-                                                    <div class="rating">
-                                                        <!-- Insert rating icon or stars here -->
-                                                    </div>
-                                                </div>
-                                            </div>
-                    
-
-                    </div>
-                 
-                </div>
+            <!-- Supabase will inject hotel cards here -->
+            <div class="container mt-4">
+                <div class="row" id="properties"></div>
             </div>
-
-
-
-
-
-
-
         </div>
     </main>
+
     <footer>
         <p>&copy; 2024 The Kingbell. All rights reserved.</p>
     </footer>
-    <script src="script.js"></script>
+
+    <!-- Supabase Script -->
+    <script type="module">
+      import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm"
+
+      const supabaseUrl = "https://kefkeuwjiawwcokgzmad.supabase.co"
+      const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtlZmtldXdqaWF3d2Nva2d6bWFkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY0NTkyMTUsImV4cCI6MjA3MjAzNTIxNX0.5gsbRMoE2XrKi5ezvXoZv9oq_T4SJuESbYVkxrOpvx0"   // 🔑 put your anon key here inside quotes
+      const supabase = createClient(supabaseUrl, supabaseKey)
+
+   async function loadProperties() {
+    const { data, error } = await supabase.from("properties_data").select("*")
+    if (error) { 
+      console.error("Error fetching:", error.message) 
+      return 
+    }
+
+    const container = document.getElementById("properties")
+    container.innerHTML = ""
+
+    data.forEach(p => {
+      container.innerHTML += `
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            <img src="${p.image_url || 'https://via.placeholder.com/300x200'}" class="card-img-top" alt="${p.name}">
+            <div class="card-body">
+              <h5 class="card-title">${p.name}</h5>
+              <p class="card-text text-muted">${p.location} | $${p.price_per_night}/night</p>
+              <button class="btn btn-primary w-100" 
+                data-bs-toggle="modal" 
+                data-bs-target="#propertyModal"
+                onclick="openProperty(${p.id}, '${p.name}', '${p.location}', ${p.price_per_night}, '${p.image_url || ''}', '${p.description || ''}')">
+                View Details
+              </button>
+            </div>
+          </div>
+        </div>
+      `
+    })
+  }
+
+  window.onload = loadProperties
+</script>
+
+<!-- Property Modal -->
+<div class="modal fade" id="propertyModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="propertyTitle"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center">
+  <!-- Carousel -->
+  <div id="propertyCarousel" class="carousel slide mb-3" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img id="propertyImage" class="d-block w-100 rounded" alt="Property image 1">
+      </div>
+      <div class="carousel-item">
+        <img id="propertyImage2" class="d-block w-100 rounded" alt="Property image 2">
+      </div>
+      <div class="carousel-item">
+        <img id="propertyImage3" class="d-block w-100 rounded" alt="Property image 3">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#propertyCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#propertyCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
+  </div>
+
+  <h5 id="propertyTitle"></h5>
+  <p id="propertyLocation" class="text-muted"></p>
+  <p id="propertyPrice" class="fw-bold text-primary fs-5"></p>
+  <p id="propertyDescription"></p>
+
+  <!-- Booking form -->
+  <input type="text" id="guestName" class="form-control mb-2" placeholder="Your Name">
+  <input type="email" id="guestEmail" class="form-control mb-2" placeholder="Your Email">
+  <label class="form-label">Check In</label>
+  <input type="date" id="checkIn" class="form-control mb-2">
+  <label class="form-label">Check Out</label>
+  <input type="date" id="checkOut" class="form-control mb-2">
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-danger w-100" onclick="bookNow()">Book Now</button>
+</div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // Fills modal when user clicks "View Details"
+  window.openProperty = function(id, name, location, price, imageUrl, description) {
+    document.getElementById("propertyTitle").textContent = name
+    document.getElementById("propertyLocation").textContent = location || "Unknown location"
+    document.getElementById("propertyPrice").textContent = `$${price || "0"} / night`
+    document.getElementById("propertyDescription").textContent = description || "No description available."
+
+    // Fill carousel images (fallback placeholders for missing ones)
+    document.getElementById("propertyImage").src  = imageUrl || "https://via.placeholder.com/600x400"
+    document.getElementById("propertyImage2").src = imageUrl || "https://via.placeholder.com/600x400?text=Alt+Image+2"
+    document.getElementById("propertyImage3").src = imageUrl || "https://via.placeholder.com/600x400?text=Alt+Image+3"
+  }
+</script>
+
+
+
 </body>
 </html>
