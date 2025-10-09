@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Kingbell | Book Your Stay</title>
 
   <!-- Bootstrap + Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 
   <style>
     :root {
@@ -80,7 +80,6 @@
       color: #555;
     }
 
-    /* Sidebar */
     nav.sidebar {
       position: fixed;
       top: 70px;
@@ -112,7 +111,6 @@
       transform: scale(1.1);
     }
 
-    /* Main */
     main {
       margin-left: 100px;
       padding: 40px;
@@ -124,7 +122,6 @@
       margin-bottom: 20px;
     }
 
-    /* Category pills */
     .categories ul {
       display: flex;
       gap: 10px;
@@ -147,7 +144,6 @@
       border-color: var(--kingbell-red);
     }
 
-    /* Cards Grid */
     .card {
       border: none;
       border-radius: 15px;
@@ -177,10 +173,6 @@
       font-size: 18px;
     }
 
-    .card-body p {
-      font-size: 15px;
-    }
-
     .btn-primary {
       background: var(--kingbell-red);
       border: none;
@@ -201,7 +193,6 @@
       border-top: 1px solid #eee;
     }
 
-    /* Responsive */
     @media (max-width: 768px) {
       main {
         margin-left: 0;
@@ -211,16 +202,6 @@
       nav.sidebar {
         display: none;
       }
-
-      header {
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-
-      .search-bar {
-        width: 100%;
-        margin: 10px 0;
-      }
     }
   </style>
 </head>
@@ -228,12 +209,10 @@
 <body>
   <header>
     <div class="logo">The Kingbell</div>
-
     <div class="search-bar">
-      <input type="text" id="searchInput" placeholder="Search hotels, villas, or apartments...">
+      <input type="text" id="searchInput" placeholder="Search hotels, villas, or apartments..." />
       <button id="searchButton"><i class="fas fa-search"></i></button>
     </div>
-
     <div class="icons">
       <i class="fas fa-comment"></i>
       <i class="fas fa-bell"></i>
@@ -275,6 +254,33 @@
     <p>&copy; 2025 The Kingbell. All Rights Reserved.</p>
   </footer>
 
+  <!-- Property Modal -->
+  <div class="modal fade" id="propertyModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 id="propertyTitle" class="modal-title fw-bold"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body text-center">
+          <img id="propertyImage" class="img-fluid rounded mb-3" style="max-height:300px;object-fit:cover;" />
+          <p id="propertyLocation" class="text-muted"></p>
+          <p id="propertyPrice" class="fw-bold text-danger fs-5"></p>
+          <p id="propertyDescription"></p>
+          <input type="text" id="guestName" class="form-control mb-2" placeholder="Your Name" />
+          <input type="email" id="guestEmail" class="form-control mb-2" placeholder="Your Email" />
+          <label class="form-label">Check In</label>
+          <input type="date" id="checkIn" class="form-control mb-2" />
+          <label class="form-label">Check Out</label>
+          <input type="date" id="checkOut" class="form-control mb-2" />
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary w-100">Confirm Booking</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Supabase Logic -->
   <script type="module">
     import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm"
@@ -285,14 +291,10 @@
 
     async function loadProperties() {
       const { data, error } = await supabase.from("properties_data").select("*")
-      if (error) {
-        console.error("Error fetching properties:", error.message)
-        return
-      }
+      if (error) return console.error("Error fetching:", error.message)
 
       const container = document.getElementById("properties")
       container.innerHTML = ""
-
       data.forEach(p => {
         container.innerHTML += `
           <div class="col">
@@ -301,15 +303,23 @@
               <div class="card-body">
                 <h5>${p.name}</h5>
                 <p class="text-muted">${p.location}</p>
-                <p class="fw-bold text-danger">$${p.price_per_night || 0} / night</p>
-                <button class="btn btn-primary" onclick="alert('Booking feature coming soon!')">
+                <p class="fw-bold text-danger">$${p.price_per_night || 0}/night</p>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#propertyModal"
+                  onclick="openProperty('${p.name}','${p.location}','${p.image_url}','${p.price_per_night}','${p.description || ''}')">
                   Book Now
                 </button>
               </div>
             </div>
-          </div>
-        `
+          </div>`
       })
+    }
+
+    window.openProperty = function (name, location, imageUrl, price, description) {
+      document.getElementById("propertyTitle").textContent = name
+      document.getElementById("propertyLocation").textContent = location
+      document.getElementById("propertyPrice").textContent = `$${price} / night`
+      document.getElementById("propertyDescription").textContent = description || "No description available."
+      document.getElementById("propertyImage").src = imageUrl || "https://via.placeholder.com/600x400"
     }
 
     window.onload = loadProperties
